@@ -1,0 +1,252 @@
+/* ======================================================= */
+/* 1. CONFIGURACIÓN GLOBAL */
+/* ======================================================= */
+:root {
+    --bg-body: #F5F5DC;
+    --bg-card: #FFFFFF;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --accent-text: #2968c8; 
+    --primary: #00FFFF; /* Cian */
+    --secondary: #D500F9; /* Magenta */
+    --header-bg: #00FFFF; /* Fondo del header igual al primario */
+    --border-color: #e0e0e0;
+    --shadow-card: 0 2px 10px rgba(0,0,0,0.1);
+    --font-family: 'Roboto', sans-serif;
+}
+
+[data-theme='dark'] {
+    --bg-body: #121212;
+    --bg-card: #1E1E1E;
+    --text-main: #E0E0E0;
+    --text-muted: #A0A0A0;
+    --accent-text: #00FFFF;
+    --primary: #333333;
+    --secondary: #FF00FF;
+    --header-bg: #1F1F1F; /* Header oscuro en modo oscuro */
+    --border-color: #333333;
+    --shadow-card: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-family); background-color: var(--bg-body); color: var(--text-main); transition: 0.3s; padding-bottom: 80px; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ======================================================= */
+/* 2. HEADER */
+/* ======================================================= */
+.main-header {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 10px 0;
+    position: sticky; /* Opcional: para que quede fijo arriba */
+    top: 0;
+    z-index: 100;
+}
+
+.container-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* --- FILA SUPERIOR (MOBILE Y DESKTOP) --- */
+.header-top-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+/* Logo */
+.logo-container {
+    flex-shrink: 0; /* No encoger el logo */
+}
+.logo-text {
+    font-weight: 800; font-size: 1.2rem; text-transform: uppercase;
+}
+.logo-magic { color: var(--secondary); }
+
+/* Barra de Búsqueda */
+.search-container {
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    display: flex;
+    max-width: 600px; /* Que no sea gigante en desktop */
+}
+
+.search-container input {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 2px 0 0 2px;
+    outline: none;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.search-btn {
+    background-color: #fff; /* Botón blanco como la barra */
+    border: none;
+    border-left: 1px solid #eee;
+    padding: 0 10px;
+    border-radius: 0 2px 2px 0;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+/* Botones Iconos (Hamburguesa y Carrito) */
+.burger-menu-btn, .cart-btn {
+    background: none;
+    border: none;
+    color: var(--text-main); /* Se adapta al tema */
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* --- FILA INFERIOR (DESKTOP) --- */
+.desktop-only { display: none; } /* Oculto en Mobile */
+
+@media (min-width: 1024px) {
+    .main-header { padding-bottom: 0; }
+    
+    .desktop-only {
+        display: flex; /* Mostrar en Desktop */
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .burger-menu-btn { display: none; } /* Ocultar hamburguesa en Desktop */
+
+    /* Envío / CP */
+    .shipping-location {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--text-main);
+        cursor: pointer;
+        opacity: 0.8;
+    }
+
+    /* Links Centrales */
+    .nav-links {
+        display: flex;
+        gap: 15px;
+        color: rgba(var(--text-main), 0.7);
+    }
+    .nav-links a:hover, .dropdown-category:hover { color: var(--text-main); }
+    .dropdown-category { font-weight: bold; cursor: pointer; }
+
+    /* Usuario */
+    .user-actions-desktop {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+}
+
+/* Botón de Tema (Texto simple) */
+.text-btn {
+    background: none; border: none; font-size: 0.9rem; cursor: pointer; color: inherit;
+    font-family: inherit;
+}
+.text-btn:hover { text-decoration: underline; }
+
+/* ======================================================= */
+/* 3. MENÚ HAMBURGUESA MOBILE (OVERLAY) */
+/* ======================================================= */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Fondo semitransparente */
+    z-index: 200;
+    display: none; /* Oculto por defecto */
+}
+
+.mobile-menu-overlay.active { display: block; }
+
+.mobile-menu-content {
+    width: 80%;
+    max-width: 300px;
+    height: 100%;
+    background-color: var(--bg-card);
+    position: relative;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-menu-header {
+    background-color: var(--primary);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: var(--text-main);
+}
+#close-menu-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+.mobile-list { padding: 20px; }
+.mobile-list li { margin-bottom: 15px; }
+.mobile-list hr { margin: 15px 0; border: 0; border-top: 1px solid var(--border-color); }
+.text-btn-mobile { background: none; border: 1px solid var(--border-color); padding: 5px 10px; width: 100%; text-align: left; cursor: pointer; color: var(--text-main); }
+
+/* ======================================================= */
+/* 4. MAIN & GRID PRODUCTOS */
+/* ======================================================= */
+main { max-width: 1200px; margin: 20px auto; padding: 0 10px; }
+.carousel-box {
+    width: 100%; height: 200px; background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.5rem; text-align: center; margin-bottom: 30px;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+.product-card {
+    background: var(--bg-card); border-radius: 6px; box-shadow: var(--shadow-card);
+    overflow: hidden; border: 1px solid var(--border-color);
+    transition: transform 0.2s;
+}
+.product-card:hover { transform: translateY(-3px); }
+.card-image { height: 200px; background-color: #ddd; display: flex; align-items: center; justify-content: center; }
+.card-info { padding: 15px; display: flex; flex-direction: column; gap: 5px; }
+.card-price { font-size: 1.4rem; color: var(--text-main); }
+.card-title { font-size: 0.9rem; color: var(--text-muted); line-height: 1.3; }
+.card-link { color: var(--accent-text); font-size: 0.85rem; margin-top: 10px; font-weight: 500; }
+
+/* ======================================================= */
+/* 5. WHATSAPP FLOTANTE */
+/* ======================================================= */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: transform 0.3s;
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+.whatsapp-float img { width: 35px; height: 35px; }
+
+/* ======================================================= */
+/* 6. FOOTER */
+/* ======================================================= */
+.main-footer { text-align: center; padding: 30px; background-color: var(--bg-card); margin-top: 40px; border-top: 1px solid var(--border-color); }
+.footer-link { color: var(--secondary); font-weight: bold; }
